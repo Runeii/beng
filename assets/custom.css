@@ -5,3 +5,25 @@ Please add any custom CSS code in here, it will be easier to transfer if updatin
 We highly recommend labelling changes, or App installs, so these can also be updated or removed as needed.
 
 */
+
+.footer-payment svg {
+  width: 60px;
+  height: 37px;
+}
+
+@media (max-width: 920px) {
+  .footer-lower {
+    display: flex;
+    flex-direction: column-reverse;
+    padding-right: 24px;
+    padding-left: 24px;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+  }
+
+  .footer-payment {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+}
