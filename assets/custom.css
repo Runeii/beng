@@ -27,3 +27,10 @@ We highly recommend labelling changes, or App installs, so these can also be upd
     text-align: center;
   }
 }
+
+[data-product-swatch-quantity="0"] {
+  pointer-events: none;
+  color: black;
+  background-color: var(--border-color);
+  opacity: 0.3;
+}

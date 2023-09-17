@@ -1,10 +1,15 @@
-<div id="product-options" data-product-options>
+<div
+  id="product-options"
+  data-product-options>
 
-  <div class="form product-form">
+  <div
+    class="form product-form">
     {% form 'product', product %}
 
       {% unless product.variants.size == 1 and product.variants.first.title contains 'Default' %}
-        <div class="product-swatches">
+        <div
+          class="product-swatches">
+          {% assign selected_color = "" %}
           {% for option in product.options_with_values %}
             {% assign index = forloop.index0 %}
             {% assign isColor = false %}
@@ -17,16 +22,29 @@
             {% for value in option.values %}
               {% if value == current_variant[currentOption] %}
                 {% assign checked = value %}
+                {% if option.position == 1 %}
+                  {% assign selected_color = value %}
+                {% endif %}
               {% endif %}
             {% endfor %}
-
-            <div class="form-field form-field-swatch swatch-{% if isColor %}color{% else %}other{% endif %}" data-product-swatch="{{ forloop.index0 }}">
-              <span class="form-field-title">{{ option.name }}</span>
-              <div class="form-field__swatch-options">
+            <div
+              class="form-field form-field-swatch swatch-{% if isColor %}color{% else %}other{% endif %}"
+              data-product-swatch="{{ forloop.index0 }}">
+              <span
+                class="form-field-title">{{ option.name }}</span>
+              <div
+                class="form-field__swatch-options">
                 {% for value in option.values %}
-                  <div class="form-swatch-item {% if option.selected_value == value %}available{% endif %}" data-product-swatch-value="{{ value | escape }}">
+                  <div
+                    class="form-swatch-item {% if option.selected_value == value %}available{% endif %}"
+                    data-product-swatch-value="{{ value | escape }}"
+                    {% assign matching_variant = product.variants | where: "option1", selected_color | where: "option2", value | first %}
+                    {% if matching_variant %}
+                    data-product-swatch-quantity="{{ matching_variant.inventory_quantity }}"
+                    {% endif %}>
                     {% if isColor %}
-                      <div class="tooltip">{{ value }}</div>
+                      <div
+                        class="tooltip">{{ value }}</div>
                     {% endif %}
                     {% capture id %}
                       {{ product.id }}-option-{{ index }}-{{ value | escape }}{% endcapture %}
@@ -38,8 +56,9 @@
                       name="{{ product.id }}-option-{{ index }}"
                       value="{{ value | escape }}"
                       {% if value == checked %}checked{% endif %}
-                      data-product-swatch-input>
-
+                      {% if matching_variant and matching_variant.inventory_quantity == 0 %}
+                      disabled
+                      {% endif %}>
                     <label
                       tabindex="0"
                       for="{{ id }}"
@@ -54,19 +73,29 @@
             </div>
           {% endfor %}
         </div>
+
+        {{ selected_options }}
       {% endunless %}
 
-      <div class="form-field product-select-simple-wrapper">
-        <label for="product-select-simple" aria-label="{{ 'layout.header.search_placeholder' | t }}">
+      <div
+        class="form-field product-select-simple-wrapper">
+        <label
+          for="product-select-simple"
+          aria-label="{{ 'layout.header.search_placeholder' | t }}">
           <select
             id="product-select-simple"
             class="product-select-simple no-wrap"
             name="id">
             {% for variant in product.variants %}
+
               {% if variant.available %}
-                <option {% if variant == current_variant %}selected{% endif %} value="{{ variant.id }}">{{ variant.title }}</option>
+                <option
+                  {% if variant == current_variant %}selected{% endif %}
+                  value="{{ variant.id }}">{{ variant.title }}</option>
               {% else %}
-                <option value="{{ variant.id }}" disabled>
+                <option
+                  value="{{ variant.id }}"
+                  disabled>
                   {{ variant.title }}
                 </option>
               {% endif %}
@@ -77,9 +106,13 @@
 
       {% comment "Example: adding line item properties" %}
         {% assign customAttr = "Engraving" %}
-        <div class="form-field">
-          <label class="form-label" for="{{ customAttr | escape }}-{{ product.id }}">
-            <span class="form-field-title">{{ customAttr }}</span>
+        <div
+          class="form-field">
+          <label
+            class="form-label"
+            for="{{ customAttr | escape }}-{{ product.id }}">
+            <span
+              class="form-field-title">{{ customAttr }}</span>
             <input
               class="form-input"
               type="text"
@@ -90,11 +123,18 @@
       {% endcomment %}
 
       {% if product.available %}
-        <div class="form-field product-quantity">
-          <label class="form-label" for="product-quantity">
-            <span class="form-field-title">{{ 'products.product.quantity' | t }}</span>
-            <div class="qty-selector">
-              <button class="qty-selector__btn qty-selector__btn--minus" type="button">{% render 'icon-minus' %}</button>
+        <div
+          class="form-field product-quantity">
+          <label
+            class="form-label"
+            for="product-quantity">
+            <span
+              class="form-field-title">{{ 'products.product.quantity' | t }}</span>
+            <div
+              class="qty-selector">
+              <button
+                class="qty-selector__btn qty-selector__btn--minus"
+                type="button">{% render 'icon-minus' %}</button>
               <input
                 class="form-input qty-selector__input"
                 type="text"
@@ -102,7 +142,9 @@
                 value="1"
                 id="product-quantity"
                 data-product-quantity>
-              <button class="qty-selector__btn qty-selector__btn--add" type="button">{% render 'icon-add' %}</button>
+              <button
+                class="qty-selector__btn qty-selector__btn--add"
+                type="button">{% render 'icon-add' %}</button>
             </div>
           </label>
         </div>
@@ -122,9 +164,13 @@
         {% endfor %}
 
         {% if hasStockCounter %}
-          <div class="form-field product-stock" data-product-stock-wrapper>
-            <div class="form-label">
-              <span class="form-field-title">{{ 'products.product.stock_level' | t }}</span>
+          <div
+            class="form-field product-stock"
+            data-product-stock-wrapper>
+            <div
+              class="form-label">
+              <span
+                class="form-field-title">{{ 'products.product.stock_level' | t }}</span>
 
               <span
                 class="product-stock-level"
@@ -153,7 +199,9 @@
 
                 {% capture inventory %}
                   {{ inventory | remove_first: '|' | split: '|' | escape }}{% endcapture %}
-                <span data-product-stock-variant-visual="{{ inventory }}" style="width: {{ currentInventory }}"></span>
+                <span
+                  data-product-stock-variant-visual="{{ inventory }}"
+                  style="width: {{ currentInventory }}"></span>
               </span>
 
               {% for variant in product.variants %}
@@ -186,7 +234,8 @@
         {% endif %}
       {% endif %}
 
-      <div class="form-actions">
+      <div
+        class="form-actions">
         <button
           class="button
           {% unless product.available %}button-disabled{% endunless %}
@@ -196,9 +245,11 @@
           {% unless product.available %}disabled{% endunless %}>
           {% render 'spinner' %}
           {% if product.available %}
-            <span class="button-text">{{ 'products.product.add_to_cart' | t }}</span>
+            <span
+              class="button-text">{{ 'products.product.add_to_cart' | t }}</span>
           {% else %}
-            <span class="button-text">{{ 'products.product.sold_out' | t }}</span>
+            <span
+              class="button-text">{{ 'products.product.sold_out' | t }}</span>
           {% endif %}
         </button>
 
@@ -207,7 +258,8 @@
         {% endif %}
       </div>
 
-      <div class="shopify-payment-terms__container">
+      <div
+        class="shopify-payment-terms__container">
         {{ form | payment_terms }}
       </div>
 
