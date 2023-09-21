@@ -44,6 +44,20 @@ We highly recommend labelling changes, or App installs, so these can also be upd
   display: none !important;
 }
 
+@media (max-width: 720px) {
+  .slick-track {
+    position: relative;
+    left: 0;
+    top: 0;
+    width: calc(100% + 40px) !important;
+    padding-right: 40px;
+  }
+
+  .slick-list {
+    overflow: initial;
+  }
+}
+
 .product-media-inner .slick-slide {
   position: relative !important;
   opacity: 1 !important;
@@ -109,19 +123,6 @@ We highly recommend labelling changes, or App installs, so these can also be upd
   }
 }
 
-@media (max-width: 720px) {
-  .slick-track {
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: -40px;
-  }
-
-  .slick-list {
-    overflow: initial;
-  }
-}
-
 @media (min-width: 720px) {
   .product-images {
     height: 100%;
@@ -152,7 +153,6 @@ We highly recommend labelling changes, or App installs, so these can also be upd
     overflow-x: hidden;
     overflow-y: auto;
     flex-direction: column;
-    display: block;
     scroll-snap-type: y mandatory;
   }
 
@@ -160,5 +160,6 @@ We highly recommend labelling changes, or App installs, so these can also be upd
     flex-shrink: initial;
     height: initial;
     scroll-snap-align: start;
+    min-height: auto;
   }
 }
