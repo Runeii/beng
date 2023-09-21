@@ -95,7 +95,8 @@ We highly recommend labelling changes, or App installs, so these can also be upd
   margin-top: 0.5em;
 }
 
-.product-title--wrapper:has(+ .product-description) {
+/* In the future, this could be: .product-title--wrapper:has(+ .product-description) */
+.product-title--wrapper {
   border-bottom: none;
   margin-bottom: 0;
 }
