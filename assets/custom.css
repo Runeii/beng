@@ -101,9 +101,6 @@ We highly recommend labelling changes, or App installs, so these can also be upd
   margin-bottom: 0;
 }
 
-.under-easyslider {
-  display: none;
-}
 @media (min-width: 720px) {
   .breadcrumbs-inner {
     padding: 1em 0;

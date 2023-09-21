@@ -35,9 +35,9 @@
       dynamic-buttons--enabled{% endunless %}'>
 
     <div class="product-images
-                                                            product-media
-                                                            {{ product_image_width }}
-                                                            {% if section.settings.productImageChangesVariant %} change-variant--enabled{% endif %}">
+                                                                    product-media
+                                                                    {{ product_image_width }}
+                                                                    {% if section.settings.productImageChangesVariant %} change-variant--enabled{% endif %}">
       {% assign featured_media = current_variant.featured_media | default: product.featured_media %}
       {%
          render 'product-media',
@@ -111,8 +111,6 @@
           {% render 'product-description-slider', product: product %}
         </div>
       {% endif %}
-
-      {% render 'product-delivery', product: product %}
 
       {% if section.settings.socialSharing %}
         {% render "share", url: product.url, title: product.title, image: product.featured_media.preview_image, collection: collection.title %}
