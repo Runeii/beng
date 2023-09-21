@@ -123,7 +123,7 @@ We highly recommend labelling changes, or App installs, so these can also be upd
 .product-images img {
   flex-shrink: 0;
   width: 100%;
-  cursor: none !important;
+  cursor: default !important;
 }
 
 @media (min-width: 600px) {
