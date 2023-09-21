@@ -9,44 +9,41 @@
   {%- assign show_secondary_image = true -%}
 {% endif %}
 
-<div class="height-inherit{% if show_secondary_image %} has-secondary-image{% endif %}">
+<div class="height-inherit{% if show_secondary_image %} has-secondary-image{% endif %} {{ container_class }}">
   {% if image_link %}
     <a
       class="{{ image_link_class }}"
       href="{{ image_link }}"
       {% if image_tabindex %}
       tabindex="{{ image_tabindex }}"
-      {% endif %}
-    >
-  {% endif %}
+      {% endif %}></a>
+    {% endif %}
 
-  {%- if image_additional_content != blank -%}
-    {{- image_additional_content -}}
-  {%- endif -%}
+    {%- if image_additional_content != blank -%}
+      {{- image_additional_content -}}
+    {%- endif -%}
 
-  <img
-    src="{{ "capitalPreloadImage.svg" | asset_url }}"
-    class="{{ image_class }} lazyload is-lazy supports-js"
-    data-src="{{ image_url }}"
-    data-widths="[{{ image_widths }}]"
-    data-sizes="auto"
-    alt="{{ image_object.alt | escape }}"
-    {{ image_attributes }}
-  >
-
-  {% if show_secondary_image %}
     <img
       src="{{ "capitalPreloadImage.svg" | asset_url }}"
-      class="{{ image_class }} lazyload is-lazy supports-js  {{ image_class }}--secondary"
-      data-src="{{ image_secondary_url }}"
+      class="{{ image_class }} lazyload is-lazy supports-js"
+      data-src="{{ image_url }}"
       data-widths="[{{ image_widths }}]"
       data-sizes="auto"
-      alt=""
-      {{ image_attributes }}
-    >
-  {% endif %}
+      alt="{{ image_object.alt | escape }}"
+      {{ image_attributes }}>
 
-  {% if image_link %}
+    {% if show_secondary_image %}
+      <img
+        src="{{ "capitalPreloadImage.svg" | asset_url }}"
+        class="{{ image_class }} lazyload is-lazy supports-js  {{ image_class }}--secondary"
+        data-src="{{ image_secondary_url }}"
+        data-widths="[{{ image_widths }}]"
+        data-sizes="auto"
+        alt=""
+        {{ image_attributes }}>
+    {% endif %}
+
+    {% if image_link %}
     </a>
   {% endif %}
 </div>
@@ -56,8 +53,7 @@
     <img
       src="{{ image_object | img_url: image_noscript_width }}"
       srcset="{{ image_object | img_url: image_noscript_width }} 1x, {{ image_object | img_url: image_noscript_width, scale: 2 }} 2x, {{ image_object | img_url: image_noscript_width, scale: 3 }} 3x"
-      alt=" {{ image_object.alt | escape }}"
-    >
+      alt=" {{ image_object.alt | escape }}">
   </noscript>
 {% endif %}
 

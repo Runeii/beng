@@ -34,18 +34,20 @@
     {% unless section.settings.productsSmartPayment %}
       dynamic-buttons--enabled{% endunless %}'>
 
-    <div class="product-images
-                                                                    product-media
-                                                                    {{ product_image_width }}
-                                                                    {% if section.settings.productImageChangesVariant %} change-variant--enabled{% endif %}">
+    <div class="product-images product-media {{ product_image_width }} {% if section.settings.productImageChangesVariant %} change-variant--enabled{% endif %}">
       {% assign featured_media = current_variant.featured_media | default: product.featured_media %}
-      {%
-         render 'product-media',
-       product: product,
-       section_id: section.id,
-       featured_media_id: featured_media.id,
-       enable_video_loop: section.settings.videoLooping,
-       enable_lightbox: true %}
+
+      {% for media in product.media %}
+        {%-
+            render 'image',
+          container_class: "carousel-image"
+          image_object: media,
+          image_widths: '335, 420, 460, 670, 840, 920, 1005, 1260, 1380',
+          image_attributes: image_attributes,
+          image_link: false,
+          image_additional_content: false,
+          image_class: false -%}
+      {% endfor %}
 
       {% render "product-badges", item: product, collection: collection, wrapper: true %}
     </div>
